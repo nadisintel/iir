@@ -1,13 +1,12 @@
 import { useState, useEffect } from 'react';
 import { LoginPage } from './components/LoginPage';
-import { LandingPage } from './components/LandingPage';
 import { AssessmentForm } from './components/AssessmentForm';
 import { LoadingScreen } from './components/LoadingScreen';
 import { ResultsDashboard } from './components/ResultsDashboard';
 import { AssessmentResponse, ScoreResult } from './types/assessment';
 import { calculateScore } from './utils/scoring';
 
-type AppState = 'login' | 'landing' | 'assessment' | 'loading' | 'results';
+type AppState =  'login' | 'assessment' | 'loading' | 'results';
 
 export default function App() {
   const [appState, setAppState] = useState<AppState>('login');
@@ -18,7 +17,7 @@ export default function App() {
   const handleLogin = (email: string, password: string) => {
     // Mock authentication - in production, this would validate credentials
     setIsAuthenticated(true);
-    setAppState('landing');
+    setAppState('login');
   };
 
   const handleStartAssessment = () => {
@@ -40,7 +39,7 @@ export default function App() {
   const handleRestart = () => {
     setAssessmentResponses(null);
     setScoreResult(null);
-    setAppState('landing');
+    setAppState('login');
   };
 
   const handleLogout = () => {
@@ -53,7 +52,7 @@ export default function App() {
   return (
     <>
       {appState === 'login' && <LoginPage onLogin={handleLogin} />}
-      {appState === 'landing' && <LandingPage onStart={handleStartAssessment} />}
+      {appState === 'login' && <LoginPage onStart={handleStartAssessment} />}
       {appState === 'assessment' && <AssessmentForm onComplete={handleCompleteAssessment} />}
       {appState === 'loading' && <LoadingScreen />}
       {appState === 'results' && assessmentResponses && scoreResult && (
